@@ -1368,10 +1368,10 @@ def print_report(results: list[dict]) -> dict:
     console.print()
     console.print(table)
 
-    # Comparison (Nemori uses 0-1 LLM score with gpt-4o-mini)
+    # Comparison against public benchmark writeups.
     console.print()
-    console.print("[dim]Reference LLM scores (gpt-4o-mini):[/dim]")
-    console.print(f"[dim]  Nemori:    0.744[/dim]")
+    console.print("[dim]Reference LLM-alignment scores from public benchmark writeups:[/dim]")
+    console.print(f"[dim]  Nemori:    0.811 (public README)[/dim]")
     console.print(f"[dim]  FullCtx:   0.723[/dim]")
     console.print(f"[dim]  Anima:      {overall_llm_score:.3f} (thresholded acc@0.5: {overall_accuracy:.1%})[/dim]")
 
