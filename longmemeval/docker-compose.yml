@@ -1,0 +1,92 @@
+# LongMemEval benchmark on A100 80GB
+# Usage:
+#   1. Build server image from repo root: docker build -t anima-server ../..
+#   2. Build bench image: docker build -t bench-longmemeval .
+#   3. Run: docker compose up
+#
+# vLLM serves Qwen3.5-27B (BF16, ~54GB VRAM)
+# anima-server runs embedding on CPU (Qwen3-Embedding-0.6B ONNX)
+
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: lme-vllm
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - "8000:8000"
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+    command: >
+      --model Qwen/Qwen3.5-27B
+      --port 8000
+      --max-model-len 32768
+      --gpu-memory-utilization 0.95
+      --dtype bfloat16
+      --trust-remote-code
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/v1/models"]
+      interval: 15s
+      timeout: 5s
+      retries: 40
+      start_period: 120s
+
+  anima:
+    image: anima-server
+    pull_policy: never
+    container_name: lme-anima
+    depends_on:
+      vllm:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    volumes:
+      - anima-data:/app/data
+      - anima-models:/app/models
+      - ./config.a100.toml:/app/config.a100.toml:ro
+    environment:
+      - OPENAI_API_KEY=dummy
+      - PROCESSOR_API_KEY=dummy
+    command: ["config.a100.toml"]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  benchmark:
+    image: bench-longmemeval
+    pull_policy: never
+    container_name: lme-runner
+    depends_on:
+      anima:
+        condition: service_healthy
+    volumes:
+      - bench-results:/bench/results
+    environment:
+      - OPENAI_API_KEY=dummy
+    command:
+      - --anima-url=http://anima:3000
+      - --llm-base-url=http://vllm:8000/v1
+      - --llm-model=Qwen/Qwen3.5-27B
+      - --reflect
+      - --reflect-model=Qwen/Qwen3.5-27B
+      - --judge-model=Qwen/Qwen3.5-27B
+      - --judge-base-url=http://vllm:8000/v1
+      - --search-limit=50
+      - --output=results/a100-qwen35-27b.json
+
+volumes:
+  hf-cache:
+  anima-data:
+  anima-models:
+  bench-results:

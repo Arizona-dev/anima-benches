@@ -1,0 +1,49 @@
+# Benchmark config for A100 80GB GPU (LongMemEval)
+# All LLM tasks use a single vLLM instance serving Qwen3.5-27B
+# Embedding runs on CPU via ONNX (no GPU needed)
+
+[server]
+host = "0.0.0.0"
+port = 3000
+
+[database]
+path = "./anima-longmemeval.db"
+
+[embedding]
+model_dir = "./models/qwen3-embedding-0.6b"
+model_url = "https://huggingface.co/onnx-community/Qwen3-Embedding-0.6B-ONNX/resolve/main/onnx/model_int8.onnx"
+tokenizer_url = "https://huggingface.co/onnx-community/Qwen3-Embedding-0.6B-ONNX/resolve/main/tokenizer.json"
+dimension = 512
+pooling = "last_token"
+query_instruction = ""
+
+[search]
+rrf_k = 60.0
+weight_vector = 0.6
+weight_keyword = 0.4
+temporal_weight = 0.0
+temporal_lambda = 0.001
+similarity_threshold = 0.85
+min_vector_similarity = 0.15
+min_score_spread = 0.0
+tier_boost = 0.0
+
+[consolidation]
+enabled = false
+backend = "openai_compat"
+
+[consolidation.openai_compat]
+base_url = "http://vllm:8000/v1"
+api_key = "dummy"
+model = "Qwen/Qwen3.5-27B"
+
+[llm]
+base_url = "http://vllm:8000/v1"
+model = "Qwen/Qwen3.5-27B"
+api_key = "dummy"
+
+[processor]
+enabled = true
+base_url = "http://vllm:8000/v1"
+model = "Qwen/Qwen3.5-27B"
+api_key = "dummy"
