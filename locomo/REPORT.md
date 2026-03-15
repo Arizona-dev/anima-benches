@@ -49,11 +49,13 @@ and per-run artifact dumps are intentionally kept outside the public repo.
 |-------------|---------|------------|-----------|----------|-------------|
 | Anima       | **86%** | 81%        | 85%       | 70%      | 90%         |
 | Honcho      | 89.9%   | —          | —         | —        | —           |
-| Backboard   | 90.1%   | —          | —         | —        | —           |
+| Backboard   | 90.0%   | —          | —         | —        | —           |
 
 > Nemori is omitted from the binary-accuracy table above because its current
 > public README reports LoCoMo as `BLEU 0.4487`, `F1 0.5196`, and
 > `LLM alignment 0.8110`, not a directly comparable binary-accuracy percentage.
+> Honcho's `89.9%` comes from its public site, and Backboard's `90.0%` comes
+> from its public LoCoMo benchmark repository.
 
 ### LLM Score comparison (continuous 0–1)
 
@@ -61,11 +63,10 @@ and per-run artifact dumps are intentionally kept outside the public repo.
 |-------------|-----------|--------------|
 | Anima       | **0.864** | llama-3.3-70b|
 | Nemori      | 0.811     | not specified in README |
-| FullCtx     | 0.723     | gpt-4o-mini  |
 
 > Note: judge models differ, and Nemori's public README reports `LLM alignment`
-> rather than a binary-accuracy figure, so these comparisons should be treated
-> as directional rather than strictly apples-to-apples.
+> rather than a binary-accuracy figure, so this comparison should be treated as
+> directional rather than strictly apples-to-apples.
 
 ---
 

@@ -14,14 +14,17 @@
 
 *Note: evaluated on conv-26 only (1 of 10 conversations). Full 10-conversation score TBD.*
 
-### Comparison
+### Public reference scores
 
 
-| System    | LoCoMo Score |
-| --------- | ------------ |
-| **Anima** | **93.4%**    |
-| Backboard | 90.1%        |
-| Honcho    | 89.9%        |
+| System    | Reported score | Scope |
+| --------- | -------------- | ----- |
+| **Anima** | **93.4%**      | conv-26 only (this run) |
+| Backboard | 90.0%          | full LoCoMo public repo |
+| Honcho    | 89.9%          | full LoCoMo public site |
+
+*These reference scores are directional only. This page covers conv-26 only,
+while the Honcho and Backboard numbers are their published full-dataset scores.*
 
 
 ## Configuration
@@ -179,4 +182,3 @@ python run.py \
   --search-limit 100 \
   --output results-full.json
 ```
-

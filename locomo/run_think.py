@@ -1372,7 +1372,6 @@ def print_report(results: list[dict]) -> dict:
     console.print()
     console.print("[dim]Reference LLM-alignment scores from public benchmark writeups:[/dim]")
     console.print(f"[dim]  Nemori:    0.811 (public README)[/dim]")
-    console.print(f"[dim]  FullCtx:   0.723[/dim]")
     console.print(f"[dim]  Anima:      {overall_llm_score:.3f} (thresholded acc@0.5: {overall_accuracy:.1%})[/dim]")
 
     # Avg response time and tokens
