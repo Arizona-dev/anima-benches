@@ -21,6 +21,11 @@ and per-run artifact dumps are intentionally kept outside the public repo.
 
 **Avg tokens/question**: ~6,300 (extract + answer calls, 3 convs instrumented)
 
+> A separate all-10-conversation run later reached **87.73%** (`1351 / 1540`)
+> with `Qwen/Qwen3.5-27B` as both answer model and judge at
+> `search-limit = 50`. See [`FULL-RUNS.md`](FULL-RUNS.md). The table above
+> remains the curated reference run for this report's own configuration.
+
 ### Per-conversation breakdown
 
 | Conv       | Single | Multi | Temporal | Open | Accuracy | LLM Score |  N  |

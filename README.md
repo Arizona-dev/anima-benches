@@ -17,7 +17,8 @@ server source tree itself; instead, it contains:
 | Run | Scope | Score | Source |
 | --- | --- | --- | --- |
 | Best focused run | `conv-26` only, 152 questions | **93.4%** | `locomo/RESULTS.md` |
-| Best broad run | all 10 conversations, 1,540 questions | **86.0%** | `locomo/REPORT.md` |
+| Best broad accuracy run | all 10 conversations, 1,540 questions | **87.7%** | `locomo/FULL-RUNS.md` |
+| Best curated broad run | all 10 conversations, 1,540 questions | **86.0%** | `locomo/REPORT.md` |
 | Best broad LLM judge score | all 10 conversations | **0.864** | `locomo/REPORT.md` |
 
 LongMemEval harnesses are included here, but this repo does not yet publish a
